@@ -7,7 +7,19 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-This element is used to display a material spinner.
+An element used to display a [Material Design spinner](http://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators).
+
+By default the spinner cycles through four different colors: `blue`, `red`, `yellow`, `green`.
+
+```html
+<mat-spinner showed></mat-spinner>
+```
+
+This behavior can be customized by setting the `color` attribute.
+
+```html
+<mat-spinner color="purple" showed></mat-spinner>
+```
 
 @element mat-spinner
 @description A custom element used to display a Material Design spinner
@@ -16,14 +28,14 @@ This element is used to display a material spinner.
 @homepage http://expandjs.com/elements/mat-spinner
 @demo http://expandjs.com/demo/mat-spinner
 
-@behavior mat-palette http://expandjs.com/elements/mat-palette
+@behavior mat-palette /bower_components/mat-palette/mat-palette.html
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.4
+@dependency expandjs ExpandJS/expandjs#0.9.5
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency mat-palette ExpandJS/mat-palette#0.9.4
+@dependency mat-palette ExpandJS/mat-palette#0.9.5
 
-@devDependency mat-demo ExpandJS/mat-demo#0.9.4
+@devDependency mat-demo ExpandJS/mat-demo#0.9.5
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -35,18 +47,31 @@ This element is used to display a material spinner.
 
     <style>
         :host {
-            display: none;
+            display: block;
             height: 28px;
+            margin: auto;
             overflow: visible;
             pointer-events: none;
             position: relative;
             width: 28px;
         }
 
-        :host[showed] {
+        :host(:not([showed])) {
+            display: none !important
+        }
+
+        :host[auto-center] {
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        :host[showed] #matSpinnerWrapper {
+            @apply(--layout-fit);
             -webkit-animation: host-rotate 1568ms linear infinite;
             animation: host-rotate 1568ms linear infinite;
-            display: block;
         }
 
         :host .layer {
@@ -54,28 +79,28 @@ This element is used to display a material spinner.
             opacity: 0;
         }
 
-        :host #matSpinner1 {
+        :host #matSpinnerLayer1 {
             -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
             animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-            border-color: #4285F4;
+            border-color: hsl(217, 89%, 61%);
         }
 
-        :host #matSpinner2 {
+        :host #matSpinnerLayer2 {
             -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
             animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-            border-color: #DB4437;
+            border-color: hsl(5, 69%, 54%);
         }
 
-        :host #matSpinner3 {
+        :host #matSpinnerLayer3 {
             -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
             animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-            border-color: #D4B400;
+            border-color: hsl(44, 100%, 48%);
         }
 
-        :host #matSpinner4 {
+        :host #matSpinnerLayer4 {
             -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
             animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-            border-color: #4CAF50;
+            border-color: hsl(151, 83%, 34%);
         }
 
         :host .clipper {
@@ -243,10 +268,12 @@ This element is used to display a material spinner.
     </style>
 
     <template>
-        <div id="matSpinner1" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
-        <div id="matSpinner2" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
-        <div id="matSpinner3" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
-        <div id="matSpinner4" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+        <div id="matSpinnerWrapper">
+            <div id="matSpinnerLayer1" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+            <div id="matSpinnerLayer2" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+            <div id="matSpinnerLayer3" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+            <div id="matSpinnerLayer4" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+        </div>
     </template>
 
     <script>
@@ -302,6 +329,19 @@ This element is used to display a material spinner.
             properties: {
 
                 /**
+                 * If set to true, the spinner is also vertically centered.
+                 *
+                 * @attribute auto-center
+                 * @type boolean
+                 * @default false
+                 */
+                autoCenter: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
                  * The spinner's color.
                  *
                  * @attribute color
@@ -337,10 +377,10 @@ This element is used to display a material spinner.
                 var self = this;
 
                 // Styling
-                XP.setStyle(self.$.matSpinner1, 'border-color', self._getColor(self.color));
-                XP.setStyle(self.$.matSpinner2, 'border-color', self._getColor(self.color));
-                XP.setStyle(self.$.matSpinner3, 'border-color', self._getColor(self.color));
-                XP.setStyle(self.$.matSpinner4, 'border-color', self._getColor(self.color));
+                XP.setStyle(self.$.matSpinnerLayer1, 'border-color', self._getColor(self.color));
+                XP.setStyle(self.$.matSpinnerLayer2, 'border-color', self._getColor(self.color));
+                XP.setStyle(self.$.matSpinnerLayer3, 'border-color', self._getColor(self.color));
+                XP.setStyle(self.$.matSpinnerLayer4, 'border-color', self._getColor(self.color));
 
                 return self;
             }
