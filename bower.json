@@ -2,6 +2,7 @@
   "name": "mat-spinner",
   "license": "BSD-3-Clause",
   "version": "0.9.6",
+  "main": "mat-spinner.html",
   "description": "A custom element used to display a Material Design spinner",
   "homepage": "http://expandjs.com/elements/mat-spinner",
   "authors": [
@@ -16,9 +17,6 @@
     "html5",
     "expandjs",
     "web-components"
-  ],
-  "main": [
-    "mat-spinner.html"
   ],
   "ignore": [
     "**/.*"
