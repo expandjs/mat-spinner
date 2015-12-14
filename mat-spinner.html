@@ -7,7 +7,7 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-An element used to display a [Material Design spinner](http://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators).
+A custom element used to display a [Material Design spinner](http://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators).
 
 By default the spinner cycles through four different colors: `blue`, `red`, `yellow`, `green`.
 
@@ -23,92 +23,75 @@ This behavior can be customized by setting the `color` attribute.
 
 @element mat-spinner
 @description A custom element used to display a Material Design spinner
-@keywords material design, material spinner, web app, html5, expandjs, web-components
+@keywords material design, material spinner, expandjs, web app, custom elements, web-components
 @group accessibility
+@hot
+
 @homepage http://expandjs.com/elements/mat-spinner
 @repository https://github.com/ExpandJS/mat-spinner
 @demo http://expandjs.com/demo/mat-spinner
 
-@behavior mat-palette /bower_components/mat-palette/mat-palette.html
+@behavior mat-ink-behavior /bower_components/mat-ink/mat-ink-behavior.html
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.11
+@dependency expandjs ExpandJS/expandjs#0.10.0
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency mat-palette ExpandJS/mat-palette#0.9.11
+@dependency mat-ink ExpandJS/mat-ink#0.10.0
+@dependency xp-spinner-behavior ExpandJS/xp-spinner-behavior#0.10.0
 
-@devDependency mat-demo ExpandJS/mat-demo#0.9.11
+@devDependency mat-demo ExpandJS/mat-demo#0.10.0
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../mat-palette/mat-palette.html">
+<link rel="import" href="../mat-ink/mat-ink-behavior.html">
+<link rel="import" href="../xp-spinner-behavior/xp-spinner-behavior.html">
+<link rel="import" href="../xp-spinner-behavior/xp-spinner-styles.html">
 
-<dom-module name="mat-spinner">
+<dom-module id="mat-spinner">
 
-    <template>
+    <template strip-whitespace>
+
+        <style include="xp-spinner-styles"></style>
 
         <style>
             :host {
-                display: block;
                 height: 28px;
-                margin: auto;
-                overflow: visible;
-                pointer-events: none;
-                position: relative;
                 width: 28px;
             }
 
-            :host(:not([showed])) {
-                display: none !important
+            :host([color]:not([color=""])) .layer {
+                border-color: currentColor;
             }
 
-            :host[auto-center] {
-                left: 50%;
-                position: absolute;
-                top: 50%;
-                -webkit-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-            }
-
-            :host[showed] #matSpinnerWrapper {
-                @apply(--layout-fit);
-                -webkit-animation: host-rotate 1568ms linear infinite;
-                animation: host-rotate 1568ms linear infinite;
-            }
-
-            :host .layer {
-                @apply(--layout-fit);
-                opacity: 0;
-            }
-
-            :host #matSpinnerLayer1 {
-                -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            :host .layer.one {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-one 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-one 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(217, 89%, 61%);
             }
 
-            :host #matSpinnerLayer2 {
-                -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            :host .layer.two {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-two 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-two 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(5, 69%, 54%);
             }
 
-            :host #matSpinnerLayer3 {
-                -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            :host .layer.three {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-three 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-three 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(44, 100%, 48%);
             }
 
-            :host #matSpinnerLayer4 {
-                -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            :host .layer.four {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-four 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-four 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(151, 83%, 34%);
             }
 
             :host .clipper {
                 border-color: inherit;
-                display: inline-block;
+                float: left;
                 height: 100%;
                 overflow: hidden;
                 position: relative;
@@ -116,9 +99,6 @@ This behavior can be customized by setting the `color` attribute.
             }
 
             :host .circle {
-                @apply(--layout-fit);
-                -webkit-animation: none;
-                animation: none;
                 border-color: inherit;
                 border-bottom-color: transparent !important;
                 border-radius: 50%;
@@ -130,16 +110,16 @@ This behavior can be customized by setting the `color` attribute.
             }
 
             :host .left .circle {
-                -webkit-animation: left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                -webkit-animation: spinner-left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-right-color: transparent !important;
                 -webkit-transform: rotate(129deg);
                 transform: rotate(129deg);
             }
 
             :host .right .circle {
-                -webkit-animation: right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                -webkit-animation: spinner-right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-left-color: transparent !important;
                 left: -100%;
                 -webkit-transform: rotate(-129deg);
@@ -148,15 +128,7 @@ This behavior can be customized by setting the `color` attribute.
 
             /* ANIMATIONS */
 
-            @-webkit-keyframes host-rotate {
-                to { -webkit-transform: rotate(360deg); }
-            }
-
-            @keyframes host-rotate {
-                to { transform: rotate(360deg); }
-            }
-
-            @-webkit-keyframes fill-unfill-rotate {
+            @-webkit-keyframes spinner-layer-rotate {
                 12.5% { -webkit-transform: rotate(135deg);  }
                 25%   { -webkit-transform: rotate(270deg);  }
                 37.5% { -webkit-transform: rotate(405deg);  }
@@ -167,7 +139,7 @@ This behavior can be customized by setting the `color` attribute.
                 to    { -webkit-transform: rotate(1080deg); }
             }
 
-            @keyframes fill-unfill-rotate {
+            @keyframes spinner-layer-rotate {
                 12.5% { transform: rotate(135deg);  }
                 25%   { transform: rotate(270deg);  }
                 37.5% { transform: rotate(405deg);  }
@@ -178,7 +150,7 @@ This behavior can be customized by setting the `color` attribute.
                 to    { transform: rotate(1080deg); }
             }
 
-            @-webkit-keyframes layer-1-fade-in-out {
+            @-webkit-keyframes spinner-layer-one {
                 from { opacity: 0.99; }
                 25% { opacity: 0.99; }
                 26% { opacity: 0; }
@@ -187,7 +159,7 @@ This behavior can be customized by setting the `color` attribute.
                 100% { opacity: 0.99; }
             }
 
-            @keyframes layer-1-fade-in-out {
+            @keyframes spinner-layer-one {
                 from { opacity: 0.99; }
                 25% { opacity: 0.99; }
                 26% { opacity: 0; }
@@ -196,7 +168,7 @@ This behavior can be customized by setting the `color` attribute.
                 100% { opacity: 0.99; }
             }
 
-            @-webkit-keyframes layer-2-fade-in-out {
+            @-webkit-keyframes spinner-layer-two {
                 from { opacity: 0; }
                 15% { opacity: 0; }
                 25% { opacity: 0.99; }
@@ -204,7 +176,7 @@ This behavior can be customized by setting the `color` attribute.
                 51% { opacity: 0; }
             }
 
-            @keyframes layer-2-fade-in-out {
+            @keyframes spinner-layer-two {
                 from { opacity: 0; }
                 15% { opacity: 0; }
                 25% { opacity: 0.99; }
@@ -212,7 +184,7 @@ This behavior can be customized by setting the `color` attribute.
                 51% { opacity: 0; }
             }
 
-            @-webkit-keyframes layer-3-fade-in-out {
+            @-webkit-keyframes spinner-layer-three {
                 from { opacity: 0; }
                 40% { opacity: 0; }
                 50% { opacity: 0.99; }
@@ -220,7 +192,7 @@ This behavior can be customized by setting the `color` attribute.
                 76% { opacity: 0; }
             }
 
-            @keyframes layer-3-fade-in-out {
+            @keyframes spinner-layer-three {
                 from { opacity: 0; }
                 40% { opacity: 0; }
                 50% { opacity: 0.99; }
@@ -228,7 +200,7 @@ This behavior can be customized by setting the `color` attribute.
                 76% { opacity: 0; }
             }
 
-            @-webkit-keyframes layer-4-fade-in-out {
+            @-webkit-keyframes spinner-layer-four {
                 from { opacity: 0; }
                 65% { opacity: 0; }
                 75% { opacity: 0.99; }
@@ -236,7 +208,7 @@ This behavior can be customized by setting the `color` attribute.
                 100% { opacity: 0; }
             }
 
-            @keyframes layer-4-fade-in-out {
+            @keyframes spinner-layer-four {
                 from { opacity: 0; }
                 65% { opacity: 0; }
                 75% { opacity: 0.99; }
@@ -244,36 +216,36 @@ This behavior can be customized by setting the `color` attribute.
                 100% { opacity: 0; }
             }
 
-            @-webkit-keyframes left-spin {
+            @-webkit-keyframes spinner-left-spin {
                 from { -webkit-transform: rotate(130deg); }
                 50% { -webkit-transform: rotate(-5deg); }
                 to { -webkit-transform: rotate(130deg); }
             }
 
-            @keyframes left-spin {
+            @keyframes spinner-left-spin {
                 from { transform: rotate(130deg); }
                 50% { transform: rotate(-5deg); }
                 to { transform: rotate(130deg); }
             }
 
-            @-webkit-keyframes right-spin {
+            @-webkit-keyframes spinner-right-spin {
                 from { -webkit-transform: rotate(-130deg); }
                 50% { -webkit-transform: rotate(5deg); }
                 to { -webkit-transform: rotate(-130deg); }
             }
 
-            @keyframes right-spin {
+            @keyframes spinner-right-spin {
                 from { transform: rotate(-130deg); }
                 50% { transform: rotate(5deg); }
                 to { transform: rotate(-130deg); }
             }
         </style>
 
-        <div id="matSpinnerWrapper">
-            <div id="matSpinnerLayer1" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
-            <div id="matSpinnerLayer2" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
-            <div id="matSpinnerLayer3" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
-            <div id="matSpinnerLayer4" class="layer"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+        <div class="wrapper">
+            <div class="layer one"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+            <div class="layer two"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+            <div class="layer three"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
+            <div class="layer four"><div class="clipper left"><div class="circle"></div></div><div class="clipper right"><div class="circle"></div></div></div>
         </div>
 
     </template>
@@ -286,106 +258,9 @@ This behavior can be customized by setting the `color` attribute.
 
             // BEHAVIORS
             behaviors: [
-                Polymer.MatPalette
-            ],
-
-            /*********************************************************************/
-
-            /**
-             * Hides the spinner.
-             *
-             * @method hide
-             * @returns {Element}
-             */
-            hide: function () {
-                var self = this;
-                self.showed = false;
-                return self;
-            },
-
-            /**
-             * Shows the spinner.
-             *
-             * @method show
-             * @returns {Element}
-             */
-            show: function () {
-                var self = this;
-                self.showed = true;
-                return self;
-            },
-
-            /**
-             * Toggles the spinner.
-             *
-             * @method toggle
-             * @returns {Element}
-             */
-            toggle: function () {
-                return this[this.showed ? 'hide' : 'show']();
-            },
-
-            /*********************************************************************/
-
-            // PROPERTIES
-            properties: {
-
-                /**
-                 * If set to true, the spinner is also vertically centered.
-                 *
-                 * @attribute auto-center
-                 * @type boolean
-                 * @default false
-                 */
-                autoCenter: {
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
-                 * The spinner's color.
-                 *
-                 * @attribute color
-                 * @type string
-                 */
-                color: {
-                    observer: '_colorChanged',
-                    reflectToAttribute: true,
-                    type: String,
-                    value: null
-                },
-
-                /**
-                 * If set to true, the spinner is visible.
-                 *
-                 * @attribute showed
-                 * @type boolean
-                 * @default false
-                 */
-                showed: {
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                }
-            },
-
-            /*********************************************************************/
-
-            // OBSERVER
-            _colorChanged: function () {
-
-                // Vars
-                var self = this;
-
-                // Styling
-                XP.setStyle(self.$.matSpinnerLayer1, 'border-color', self._getColor(self.color));
-                XP.setStyle(self.$.matSpinnerLayer2, 'border-color', self._getColor(self.color));
-                XP.setStyle(self.$.matSpinnerLayer3, 'border-color', self._getColor(self.color));
-                XP.setStyle(self.$.matSpinnerLayer4, 'border-color', self._getColor(self.color));
-
-                return self;
-            }
+                Polymer.MatInkBehavior,
+                Polymer.XPSpinnerBehavior
+            ]
         });
     </script>
 </dom-module>
